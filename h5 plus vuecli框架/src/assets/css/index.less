@@ -1,0 +1,162 @@
+html {
+  /*font-size: 62.5%;*/
+}
+
+/*按钮样式*/
+.common-big-btn {
+  border: none;
+  height: 45px;
+  line-height: 45px;
+  -moz-box-shadow: 0px 4px 10px #e2e8ff;
+  box-shadow: 0px 4px 10px #e2e8ff;
+  background: -webkit-linear-gradient(left, #459cfd, #8197ff); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, #459cfd, #8197ff); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(right, #459cfd, #8197ff); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #459cfd, #8197ff); /* 标准的语法（必须放在最后） */
+}
+
+.common-big-nobg-btn {
+  height: 45px;
+  line-height: 45px;
+  -moz-box-shadow: 0px 8px 10px #8097FF;
+  box-shadow: 0px 8px 10px #e2e8ff;
+  background: transparent;
+  color: #469CFD;
+  border: 1px solid #469CFD;
+}
+
+.common-radiu-btn {
+  padding: 8px 22px;
+  color: #499CFE;
+  background: #ffffff;
+  border: 1px solid #469CFD;
+  //-webkit-border-radius: ;
+  //-moz-border-radius: ;
+  border-radius: 30px;
+
+  &:active {
+    background: #dbe5ff;
+  }
+}
+
+// 银行卡公共样式
+.common-bank-wrap {
+  height: 100%;
+
+  .content {
+    border-radius: 5px 5px 0 0;
+    top: 46px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    padding: 10px 10px;
+    margin: 10px 15px 10px 15px;
+    background-color: #ffffff;
+    overflow: hidden;
+  }
+}
+
+// 全白背景
+.common-wrap {
+  background-color: #ffffff;
+  height: 100%;
+
+  .content {
+    padding: 10px 10px;
+  }
+}
+
+.common-btn-wrap {
+  box-sizing: border-box;
+  padding: 0 15px;
+}
+
+
+// 弹窗样式
+.common-loading-alert {
+  background-color: rgba(50, 50, 51, .28) !important;
+}
+
+
+// 重置vant样式
+
+#app {
+  /deep/ .van-radio__icon--round .van-icon {
+    background: #ffffff;
+    /*border: none;*/
+  }
+
+  /deep/ .van-checkbox__icon--round .van-icon {
+    background: #ffffff;
+    /*border: none;*/
+  }
+
+  /deep/ .van-checkbox__icon--checked .van-icon {
+    background: #80C026;
+    border: none;
+  }
+
+  /deep/ .van-radio__icon--checked .van-icon {
+    background: #80C026;
+    border: none;
+  }
+
+  // input disabled 样式
+  /deep/ .van-field--disabled {
+    background: #eeeeee;
+  }
+
+  // 协议等详细内容展示弹窗 start
+  /deep/ .van-overlay.ruleCss {
+    background-color: rgba(193, 193, 193, 0.7) !important;
+  }
+
+  .betRule {
+    border-radius: 9px;
+    background: #ffffff;
+  }
+
+  .mainRuleTitle {
+    padding: 14px 0px;
+    text-align: center;
+    font-size: 16px;
+    margin: 0px 10px;
+    border-bottom: 1px solid #eeee;
+    background-image: -webkit-linear-gradient(left, #459cfd, #8197ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .betRule .ruleDetail {
+    padding: 0px 15px;
+  }
+
+  .betRule p {
+    padding-bottom: 10px;
+    font-size: 15px;
+    font-weight: normal;
+  }
+
+  .betRule span {
+    color: #4677c4;
+    margin: 13px 0px;
+    display: block;
+    font-size: 11px;
+  }
+
+  .circleCancel {
+    text-align: center;
+    margin-top: 15px;
+  }
+  // 协议等详细内容展示弹窗 end
+
+}
+
+// 轻提示样式
+.van-toast {
+  text-align: left;
+  background-color: rgba(50, 50, 50, 0.78);
+  width: auto;
+  min-width: 90px;
+  max-width: 200px;
+}
