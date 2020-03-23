@@ -4,6 +4,16 @@ export default {
   Y: '年',
   M: '月',
   D: '日',
+  plus: {
+    confirm: '确定',
+    cancel: '取消',
+    fileReadFail: '文件读取失败，请重试!',
+    err: '读取拍照文件错误:',
+    Photograph: '拍照',
+    album: '从手机相册选择',
+    err2: '操作错误:',
+    contactsReadFail: '通讯录读取失败'
+  },
   api: {
     serverConFail: '服务器连接失败'
   },

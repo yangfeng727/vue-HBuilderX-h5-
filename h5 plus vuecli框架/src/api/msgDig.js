@@ -1,6 +1,6 @@
 // 调用api时显示的弹窗
 import {Toast} from 'vant'
-
+// Toast.allowMultiple()
 /**
  *  错误提示
  * */

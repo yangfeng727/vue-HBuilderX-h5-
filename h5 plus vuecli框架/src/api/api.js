@@ -9,7 +9,6 @@ import {errorAlert, loading} from './msgDig' // 弹窗
 import i18n from '../locales/index'
 import {getRouter} from '../router' // 引入路由实例
 const router = getRouter()
-
 let globalObj = {
   offLoad: true, // 显示loading提示
   offMsg: true, // 是否显示错误提示
@@ -47,7 +46,7 @@ export const Axios = axios.create({
 Axios.interceptors.request.use(config => {
     // eg: config.baseURL值为otherDomain
     let baseURL = config.baseURL ? (domainConfig[config.baseURL] ? domainConfig[config.baseURL] : config.baseURL) : domainConfig.domain
-    config.url = `${baseURL}/api${config.url}?_t=${new Date().getTime()}`
+    config.url = `${baseURL}${config.url}?_t=${new Date().getTime()}`
     // 显示loading
     if (globalObj.offLoad) {
       loading.loadingAlert()
@@ -70,6 +69,7 @@ Axios.interceptors.request.use(config => {
     //   /*       config.headers.post['Authorization'] = Cookies('authCode');
     //            config.headers.get['Authorization'] = Cookies('authCode'); */
     // }
+    console.log(config, '发送前')
     return config
   },
   error => {
@@ -79,24 +79,38 @@ Axios.interceptors.request.use(config => {
 // 显示错误提示
 const showErr = function (res, errMsg = '') {
   if (msgObj[res.config.url]) { // 错误提示
-    errorAlert(errMsg !== '' ? errMsg : res.data ? res.data.retMsg : '')
+    let str = ''
+    if (errMsg !== '') {
+      str = errMsg
+    } else if (res.data) {
+      if (res.data.errors && res.data.errors.detail) {
+        str = res.data.errors.detail
+      } else if (res.data.retMsg) {
+        str = res.data.retMsg
+      } else {
+        str = ''
+      }
+    }
+    errorAlert(str)
   }
 }
 
 // 响应拦截器都会执行的方法
 let responseAlways = function (res, errMsg = '') {
-  loading.removeLoading() // 统一移除loading效果
-  msgObj.del(res.config.url) // 统一移除当前错误标识
+  loading.removeLoading()// 统一移除loading效果
 }
 
 /**
  * 添加响应拦截器
  */
 Axios.interceptors.response.use(res => {
+  console.log(res, '成功')
   /*  检查授权码是否过期 */
   if (res.data) {
+    responseAlways(res)
     switch (res.data.retCode) {
       case '00': // 成功
+        res.data.sus = true // 成功
         break
       case '8000': // 重新登陆
         if (globalObj.checkLogin) {
@@ -116,27 +130,28 @@ Axios.interceptors.response.use(res => {
         break
     }
   }
-  responseAlways(res)
+  msgObj.del(res.config.url) // 统一移除当前错误标识，需要在最后移除
   // 其他状态直接返回
   return res.data
 }, error => {
+  console.log(error, '失败')
   responseAlways(error)
   // removePending(error.config) // 不管成功与否都从记录中移除请求记录
   // 如果授权码过期则返回登录页
   // 接口请求报错
   let status = error.response ? error.response.status : ''
   switch (status) {
-    case '404':
-      // router.push({path: '/404'})
-      break
-    case '403':
-      break
-    case '502':
-    case '500':
-      showErr(i18n.t('api.serverConFail')) // 显示错误
-      break
+    // router.push({path: '/404'})
+    case 404:
+    case 403:
+    case 500:
+    case 502:
+    case 504:
+    default:
+      showErr(error, i18n.t('api.serverConFail')) // 显示错误
   }
-  console.log(`请求失败:${error.response.status}`)
+  msgObj.del(error.config.url) // 统一移除当前错误标识，需要在最后移除
+  console.log(`请求失败:${status}`)
   /* 注意这里返回的是resolve，而不是reject，
   目的：在成功的回调中就算请求失败也都能收到通知,然后可以关闭一些加载动画 */
   // return Promise.resolve(error)
@@ -198,8 +213,21 @@ export function $httpPOST ({
 /**
  *  提交表单形式的网络请求 一般表单
  */
-export function $httpForm (url, data = {}, config = {}) {
-  return Axios.post(url, data, {
-    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
-  })
+export function $httpForm ({
+                             url = '',
+                             data = {},
+                             config = {
+                               headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
+                               transformRequest: [function (data) {
+                                 data = qs.stringify(data, {indices: false})
+                                 return data
+                               }]
+                             },
+                             offMsg = true,
+                             offLoad = true,
+                             checkLogin = true
+                           }) {
+  dealVariable({offMsg, offLoad, checkLogin})
+
+  return Axios.post(`${url}`, data, config)
 }

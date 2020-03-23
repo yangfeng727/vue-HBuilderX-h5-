@@ -7,6 +7,7 @@
                   :value.sync="model.currencyType"
                   :columns="currencyTypeMap"
                   :errorMsg="errorMsg.currencyType"></popup-picker>
+    <img src="../assets/img/test.png" class="img"/>
   </div>
 </template>
 <script>
@@ -49,31 +50,36 @@
   }
 </script>
 <style scoped lang="less">
+  .img {
+    width: 100px;
+    height: auto;
+  }
+
   /*.pop-cu-item {*/
-    /*/deep/ .van-field {*/
-      /*padding: 0;*/
-    /*}*/
+  /*/deep/ .van-field {*/
+  /*padding: 0;*/
+  /*}*/
 
-    /*/deep/ .van-field__control:disabled {*/
-      /*color: #323233;*/
-    /*}*/
+  /*/deep/ .van-field__control:disabled {*/
+  /*color: #323233;*/
+  /*}*/
 
-    /*/deep/ .van-cell {*/
-      /*border: none;*/
-    /*}*/
+  /*/deep/ .van-cell {*/
+  /*border: none;*/
+  /*}*/
 
-    /*/deep/ .van-field__control {*/
-      /*box-sizing: border-box;*/
-      /*padding-left: 0;*/
-    /*}*/
+  /*/deep/ .van-field__control {*/
+  /*box-sizing: border-box;*/
+  /*padding-left: 0;*/
+  /*}*/
 
-    /*/deep/ .van-cell:not(:last-child)::after {*/
-      /*border: none;*/
-    /*}*/
+  /*/deep/ .van-cell:not(:last-child)::after {*/
+  /*border: none;*/
+  /*}*/
 
-    /*/deep/ .van-field__right-icon {*/
-      /*margin-right: 8px;*/
-      /*color: #666666;*/
-    /*}*/
+  /*/deep/ .van-field__right-icon {*/
+  /*margin-right: 8px;*/
+  /*color: #666666;*/
+  /*}*/
   /*}*/
 </style>
